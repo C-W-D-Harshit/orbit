@@ -248,7 +248,7 @@ export function PlaceholdersAndVanishInput({
     <div className="w-full">
       <form
         className={cn(
-          "w-full relative mx-auto flex items-center bg-white dark:bg-background border min-h-12 rounded-3xl overflow-hidden shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200",
+          "w-full relative mx-auto flex items-center bg-white dark:bg-background drop-shadow-xl border border-border min-h-12 rounded-3xl overflow-hidden shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200",
           value && "bg-gray-50"
         )}
         onSubmit={handleSubmit}
