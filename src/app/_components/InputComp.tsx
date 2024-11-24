@@ -13,7 +13,7 @@ const placeholders = [
 
 export default function InputComp() {
   return (
-    <div className="w-full max-w-2xl flex gap-2">
+    <div className="w-full max-w-3xl flex gap-2">
       <PlaceholdersAndVanishInput
         placeholders={placeholders}
         onChange={(e) => console.log(e.target.value)}

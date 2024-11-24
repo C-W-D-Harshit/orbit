@@ -38,72 +38,64 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/",
       icon: SquareTerminal,
       isActive: true,
     },
     {
       title: "Tasks",
-      url: "#",
+      url: "/tasks",
       icon: Bot,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: "Active Tasks",
+          url: "/tasks/active",
         },
         {
-          title: "Explorer",
-          url: "#",
+          title: "Completed Tasks",
+          url: "/tasks/completed",
         },
         {
-          title: "Quantum",
-          url: "#",
+          title: "Archived Tasks",
+          url: "/tasks/archived",
         },
       ],
     },
     {
       title: "Goals",
-      url: "#",
+      url: "/goals",
       icon: BookOpen,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: "Current Goals",
+          url: "/goals/current",
         },
         {
-          title: "Get Started",
-          url: "#",
+          title: "Goal Progress",
+          url: "/goals/progress",
         },
         {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
+          title: "Goal History",
+          url: "/goals/history",
         },
       ],
     },
     {
       title: "Pomodoro",
-      url: "#",
+      url: "/pomodoro",
       icon: Settings2,
       items: [
         {
-          title: "General",
-          url: "#",
+          title: "Start Focus Timer",
+          url: "/pomodoro/start",
         },
         {
-          title: "Team",
-          url: "#",
+          title: "Session History",
+          url: "/pomodoro/history",
         },
         {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
+          title: "Customize Settings",
+          url: "/pomodoro/settings",
         },
       ],
     },

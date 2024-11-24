@@ -48,7 +48,7 @@ export default function page() {
       </div>
 
       {/* Suggestions Grid */}
-      <div className="w-full max-w-md sm:max-w-2xl grid grid-cols-1 sm:grid-cols-3 gap-4 pb-6">
+      <div className="w-full max-w-md sm:max-w-3xl grid grid-cols-1 sm:grid-cols-3 gap-4 pb-6">
         {suggestions.map((suggestion, index) => (
           <Card
             key={index}
