@@ -330,7 +330,7 @@ export function PlaceholdersAndVanishInput({
           disabled={!value || isLoading}
           type="submit"
           ref={btnRef}
-          className="absolute right-2 z-50 h-8 w-8 rounded-full disabled:bg-gray-100 bg-black dark:bg-zinc-900 dark:disabled:bg-zinc-800 transition duration-200 flex items-center justify-center"
+          className="absolute right-2 z-50 h-8 w-8 rounded-full disabled:bg-gray-100 bg-accent dark:disabled:bg-accent/80 transition duration-200 flex items-center justify-center"
         >
           <motion.svg
             xmlns="http://www.w3.org/2000/svg"
@@ -342,7 +342,7 @@ export function PlaceholdersAndVanishInput({
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="text-gray-300 h-4 w-4"
+            className="text-accent-foreground h-4 w-4"
           >
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <motion.path
@@ -385,7 +385,7 @@ export function PlaceholdersAndVanishInput({
                   duration: 0.3,
                   ease: "linear",
                 }}
-                className="dark:text-zinc-500 text-sm sm:text-base font-normal text-neutral-500 pl-4 sm:pl-12 text-left w-[calc(100%-2rem)] truncate"
+                className="text-sm sm:text-base font-normal text-accent-foreground/60 pl-4 sm:pl-12 text-left w-[calc(100%-2rem)] truncate"
               >
                 {placeholders[currentPlaceholder]}
               </motion.p>
