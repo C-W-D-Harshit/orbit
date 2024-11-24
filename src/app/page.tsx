@@ -50,11 +50,11 @@ export default function page() {
       </div>
 
       {/* Suggestions Grid */}
-      <div className="w-full max-w-md sm:max-w-3xl grid grid-cols-1 sm:grid-cols-3 gap-4 pb-6">
+      <div className="w-full max-w-md sm:max-w-3xl grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 pb-6 lg:pb-12">
         {suggestions.map((suggestion, index) => (
           <Card
             key={index}
-            className="p-4 hover:bg-accent transition-colors cursor-pointer flex flex-row sm:flex-col items-center text-left sm:text-center space-x-4 sm:space-x-0 sm:space-y-2"
+            className="p-4 hover:bg-accent lg:h-32 transition-colors cursor-pointer flex flex-row sm:flex-col items-center text-left sm:text-center space-x-4 sm:space-x-0 sm:space-y-2"
           >
             <div className="p-2 rounded-full bg-primary/10 shrink-0">
               {suggestion.icon}

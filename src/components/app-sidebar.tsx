@@ -48,8 +48,8 @@ const data = {
       icon: Bot,
       items: [
         {
-          title: "Active Tasks",
-          url: "/tasks/active",
+          title: "Upcoming Tasks",
+          url: "/tasks/upcoming",
         },
         {
           title: "Completed Tasks",

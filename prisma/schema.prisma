@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  username          String    @unique
+  hashedPassword    String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  tasks             Task[]
+  projects          Project[]
+  pomodoroSessions  Pomodoro[]
+
+  profile           Profile?
+}
+
+model Profile {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id])
+  avatarUrl         String?  // URL for profile pictures
+  bio               String?
+  timezone          String?  // For task/pomodoro scheduling
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Task {
+  id                String     @id @default(cuid())
+  title             String
+  description       String?
+  status            TaskStatus @default(TODO)
+  priority          TaskPriority @default(MEDIUM)
+  dueDate           DateTime?
+  userId            String
+  user              User       @relation(fields: [userId], references: [id])
+  projectId         String?
+  project           Project?   @relation(fields: [projectId], references: [id])
+  tags              Tag[]      @relation("TaskTags")
+
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  COMPLETED
+  ARCHIVED
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model Project {
+  id                String     @id @default(cuid())
+  name              String
+  description       String?
+  ownerId           String
+  owner             User       @relation(fields: [ownerId], references: [id])
+  tasks             Task[]
+
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+}
+
+model Pomodoro {
+  id                String     @id @default(cuid())
+  userId            String
+  user              User       @relation(fields: [userId], references: [id])
+  duration          Int        // Pomodoro duration in minutes
+  completedSessions Int        @default(0)
+  goal              String?    // Optional task/goal tied to the Pomodoro session
+
+  startedAt         DateTime   @default(now())
+  finishedAt        DateTime?  // Timestamp for when the Pomodoro session ends
+}
+
+model Tag {
+  id                String   @id @default(cuid())
+  name              String   @unique
+  tasks             Task[]   @relation("TaskTags")
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
