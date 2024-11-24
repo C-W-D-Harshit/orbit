@@ -106,7 +106,7 @@ export default function TasksPage() {
         </div>
 
         <div className="space-y-6">
-          <Accordion type="multiple">
+          <Accordion type="multiple" defaultValue={["item-1", "item-2"]}>
             <AccordionItem value="item-1">
               <AccordionTrigger className="border-b">
                 <p className="text-lg font-medium">Overdue</p>
