@@ -12,6 +12,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import React from "react";
+import Link from "next/link";
 
 export function DynamicBreadcrumb() {
   const pathname = usePathname();
@@ -41,11 +42,9 @@ export function DynamicBreadcrumb() {
           <React.Fragment key={index}>
             <BreadcrumbItem key={breadcrumb.href}>
               {index < breadcrumbs.length - 1 ? (
-                <>
-                  <BreadcrumbLink href={breadcrumb.href}>
-                    {breadcrumb.label}
-                  </BreadcrumbLink>
-                </>
+                <Link href={breadcrumb.href}>
+                  <BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
+                </Link>
               ) : (
                 <BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
               )}
