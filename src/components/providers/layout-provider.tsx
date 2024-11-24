@@ -1,12 +1,6 @@
+"use client";
+
 import { AppSidebar } from "@/components/app-sidebar";
-// import {
-//   Breadcrumb,
-//   BreadcrumbItem,
-//   BreadcrumbLink,
-//   BreadcrumbList,
-//   BreadcrumbPage,
-//   BreadcrumbSeparator,
-// } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
@@ -14,12 +8,22 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { DynamicBreadcrumb } from "../dynamic-breadcrumb";
+import { usePathname } from "next/navigation";
 
 export default function LayoutProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
+  if (pathname === "/") {
+    return <>{children}</>;
+  }
+
+  if (pathname.startsWith("/auth")) {
+    return <>{children}</>;
+  }
   return (
     <SidebarProvider>
       <AppSidebar />

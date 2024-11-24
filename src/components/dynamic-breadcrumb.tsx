@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { ChevronRightIcon, HomeIcon } from "lucide-react";
+import { HomeIcon } from "lucide-react";
 import { generateBreadcrumbs } from "@/utils/breadcrumb-utils";
 import {
   Breadcrumb,
@@ -36,24 +36,22 @@ export function DynamicBreadcrumb() {
             <span className="sr-only">Home</span>
           </BreadcrumbLink>
         </BreadcrumbItem>
-        <BreadcrumbSeparator>
-          <ChevronRightIcon className="h-4 w-4" />
-        </BreadcrumbSeparator>
+        <BreadcrumbSeparator />
         {breadcrumbs.map((breadcrumb, index) => (
-          <BreadcrumbItem key={breadcrumb.href}>
-            {index < breadcrumbs.length - 1 ? (
-              <>
-                <BreadcrumbLink href={breadcrumb.href}>
-                  {breadcrumb.label}
-                </BreadcrumbLink>
-                <BreadcrumbSeparator>
-                  <ChevronRightIcon className="h-4 w-4" />
-                </BreadcrumbSeparator>
-              </>
-            ) : (
-              <BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
-            )}
-          </BreadcrumbItem>
+          <React.Fragment key={index}>
+            <BreadcrumbItem key={breadcrumb.href}>
+              {index < breadcrumbs.length - 1 ? (
+                <>
+                  <BreadcrumbLink href={breadcrumb.href}>
+                    {breadcrumb.label}
+                  </BreadcrumbLink>
+                </>
+              ) : (
+                <BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
+              )}
+            </BreadcrumbItem>
+            {index < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
+          </React.Fragment>
         ))}
       </BreadcrumbList>
     </Breadcrumb>

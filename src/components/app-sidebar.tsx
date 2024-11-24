@@ -38,64 +38,64 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "/",
+      url: "/dashboard/",
       icon: SquareTerminal,
       isActive: true,
     },
     {
       title: "Tasks",
-      url: "/tasks",
+      url: "/dashboard/tasks",
       icon: Bot,
       items: [
         {
           title: "Upcoming Tasks",
-          url: "/tasks/upcoming",
+          url: "/dashboard/tasks/upcoming",
         },
         {
           title: "Completed Tasks",
-          url: "/tasks/completed",
+          url: "/dashboard/tasks/completed",
         },
         {
           title: "Archived Tasks",
-          url: "/tasks/archived",
+          url: "/dashboard/tasks/archived",
         },
       ],
     },
     {
       title: "Goals",
-      url: "/goals",
+      url: "/dashboard/goals",
       icon: BookOpen,
       items: [
         {
           title: "Current Goals",
-          url: "/goals/current",
+          url: "/dashboard/goals/current",
         },
         {
           title: "Goal Progress",
-          url: "/goals/progress",
+          url: "/dashboard/goals/progress",
         },
         {
           title: "Goal History",
-          url: "/goals/history",
+          url: "/dashboard/goals/history",
         },
       ],
     },
     {
       title: "Pomodoro",
-      url: "/pomodoro",
+      url: "/dashboard/pomodoro",
       icon: Settings2,
       items: [
         {
           title: "Start Focus Timer",
-          url: "/pomodoro/start",
+          url: "/dashboard/pomodoro/start",
         },
         {
           title: "Session History",
-          url: "/pomodoro/history",
+          url: "/dashboard/pomodoro/history",
         },
         {
           title: "Customize Settings",
-          url: "/pomodoro/settings",
+          url: "/dashboard/pomodoro/settings",
         },
       ],
     },
