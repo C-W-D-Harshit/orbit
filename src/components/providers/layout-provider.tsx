@@ -31,7 +31,7 @@ export default function LayoutProvider({
             <DynamicBreadcrumb />
           </div>
         </header>
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 flex flex-col p-6">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );
