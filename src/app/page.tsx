@@ -31,9 +31,11 @@ export default function page() {
   return (
     <div className="flex flex-1 flex-col items-center justify-between ">
       {/* Welcome Section */}
-      <div className="flex-1 flex flex-col items-center justify-center text-center max-w-lg mx-auto space-y-1 lg:space-y-3">
-        <div className="p-6 rounded-full bg-primary/10">
-          <RocketIcon className="size-12 text-primary" />
+      <div className="flex-1 flex flex-col items-center justify-center text-center max-w-lg mx-auto space-y-0.5 lg:space-y-3">
+        <div>
+          <div className="p-6 mb-3 rounded-full bg-primary/10">
+            <RocketIcon className="size-12 text-primary" />
+          </div>
         </div>
         <h1 className="lg:text-4xl text-2xl font-bold tracking-tight">
           Welcome to Orbit
