@@ -46,7 +46,7 @@ export default function ChatInterface({ messages }: { messages: Message[] }) {
               >
                 <Markdown
                   className={cn(
-                    "prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg prose-headings:font-bold prose-a:text-primary hover:prose-a:text-primary/70 prose-code:text-primary prose-pre:bg-muted prose-pre:text-muted-foreground prose-blockquote:border-l-primary prose-blockquote:text-muted-foreground prose-strong:text-foreground prose-em:text-foreground"
+                    "prose dark:prose-invert prose-headings:font-bold prose-a:text-primary hover:prose-a:text-primary/70 prose-code:text-primary prose-pre:bg-muted prose-pre:text-muted-foreground prose-blockquote:border-l-primary prose-blockquote:text-muted-foreground prose-strong:text-foreground prose-em:text-foreground"
                   )}
                   // remarkPlugins={[remarkGfm]}
                   // rehypePlugins={[rehypeRaw, rehypeHighlight]}
