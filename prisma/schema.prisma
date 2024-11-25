@@ -12,6 +12,8 @@ model User {
   email             String    @unique
   username          String?    
   hashedPassword    String
+  isOnboarded       Boolean   @default(false)
+  isVerified        Boolean   @default(false)
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
   tasks             Task[]

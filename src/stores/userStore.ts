@@ -9,7 +9,7 @@ type Store = {
 
 type User = {
   id: string;
-  username: string;
+  username: string | null;
   email: string;
 };
 
