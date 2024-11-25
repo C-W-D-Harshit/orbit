@@ -4,6 +4,9 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import LayoutProvider from "@/components/providers/layout-provider";
 import { LoadingScreen } from "@/components/loading-screen";
+import { Suspense } from "react";
+import { SessionProvider } from "next-auth/react";
+import UserStoreProvider from "@/components/providers/user-store-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,18 +35,24 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          forcedTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <LayoutProvider>
-            <LoadingScreen />
-            {children}
-          </LayoutProvider>
-        </ThemeProvider>
+        <Suspense fallback={<LoadingScreen />}>
+          <SessionProvider>
+            <UserStoreProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                forcedTheme="dark"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <LayoutProvider>
+                  <LoadingScreen />
+                  {children}
+                </LayoutProvider>
+              </ThemeProvider>
+            </UserStoreProvider>
+          </SessionProvider>
+        </Suspense>
       </body>
     </html>
   );

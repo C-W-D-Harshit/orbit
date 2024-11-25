@@ -16,9 +16,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { loginSchema, type LoginFormValues } from "@/lib/schemas";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -31,13 +35,29 @@ export default function LoginPage() {
 
   async function onSubmit(values: LoginFormValues) {
     setIsLoading(true);
+
+    const toastId = toast.loading("Logging in...");
+    const { email, password } = values;
+
+    console.log("values", values);
+
     try {
-      // Here you would typically make an API call to your auth endpoint
-      console.log(values);
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const response = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (response?.error) throw new Error(response.error);
+
+      router.push("/dashboard");
+      toast.success("Logged in successfully", { id: toastId });
     } catch (error) {
-      console.error(error);
+      if (error instanceof Error) {
+        toast.error(error.message, { id: toastId });
+      } else {
+        toast.error("Something went wrong", { id: toastId });
+      }
     } finally {
       setIsLoading(false);
     }
