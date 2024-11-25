@@ -33,6 +33,29 @@ const suggestions: Suggestion[] = [
   },
 ];
 
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 260,
+      damping: 20,
+    },
+  },
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
 export default function Page() {
   const { messages, input, handleInputChange, handleSubmit } = useChat();
   return (
@@ -90,24 +113,28 @@ export default function Page() {
               </motion.p>
             </motion.div>
             {/* Suggestions Grid */}
-            <div className="w-full max-w-md sm:max-w-3xl mb-32 grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 pb-6 lg:pb-12">
+            <motion.div
+              className="w-full max-w-md sm:max-w-3xl mb-32 grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 pb-6 lg:pb-12"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
               {suggestions.map((suggestion, index) => (
-                <Card
-                  key={index}
-                  className="p-4 hover:bg-accent lg:h-32 transition-colors cursor-pointer flex flex-row sm:flex-col items-center text-left sm:text-center space-x-4 sm:space-x-0 sm:space-y-2"
-                >
-                  <div className="p-2 rounded-full bg-primary/10 shrink-0">
-                    {suggestion.icon}
-                  </div>
-                  <div>
-                    <p className="font-medium text-sm">{suggestion.title}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {suggestion.subtitle}
-                    </p>
-                  </div>
-                </Card>
+                <motion.div key={index} variants={itemVariants}>
+                  <Card className="p-4 hover:bg-accent lg:h-32 transition-colors cursor-pointer flex flex-row sm:flex-col items-center text-left sm:text-center space-x-4 sm:space-x-0 sm:space-y-2">
+                    <div className="p-2 rounded-full bg-primary/10 shrink-0">
+                      {suggestion.icon}
+                    </div>
+                    <div>
+                      <p className="font-medium text-sm">{suggestion.title}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {suggestion.subtitle}
+                      </p>
+                    </div>
+                  </Card>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </React.Fragment>
         ) : (
           <motion.div

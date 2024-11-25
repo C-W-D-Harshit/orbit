@@ -1,5 +1,3 @@
-import { Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Accordion,
@@ -7,6 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { AddTask } from "./_components/AddTask";
 
 // interface Task {
 //   id: string;
@@ -100,9 +99,14 @@ export default function TasksPage() {
   return (
     <div className="flex-1 bg-background text-foreground">
       <div className="max-w-3xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-2xl font-semibold mb-1">Today</h1>
-          <div className="text-sm text-muted-foreground">8 tasks · 1h 30m</div>
+        <div className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-semibold mb-1">Today</h1>
+            <div className="text-sm text-muted-foreground">
+              8 tasks · 1h 30m
+            </div>
+          </div>
+          <AddTask />
         </div>
 
         <div className="space-y-6">
@@ -214,14 +218,6 @@ export default function TasksPage() {
             </AccordionItem>
           </Accordion>
         </div>
-
-        <Button
-          variant="ghost"
-          className="mt-4 w-full justify-start text-muted-foreground"
-        >
-          <Plus className="mr-2 h-4 w-4" />
-          Add task
-        </Button>
       </div>
     </div>
   );
