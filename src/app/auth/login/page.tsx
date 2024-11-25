@@ -17,12 +17,14 @@ import {
 } from "@/components/ui/form";
 import { loginSchema, type LoginFormValues } from "@/lib/schemas";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = searchParams.get("next");
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -50,7 +52,8 @@ export default function LoginPage() {
 
       if (response?.error) throw new Error(response.error);
 
-      router.push("/dashboard");
+      // Redirect to dashboard
+      router.push(next ?? "/dashboard");
       toast.success("Logged in successfully", { id: toastId });
     } catch (error) {
       if (error instanceof Error) {

@@ -4,6 +4,11 @@ export default auth((req) => {
   // Redirect to login if not authenticated
   if (!req.auth && req.nextUrl.pathname !== "/auth/login") {
     const newUrl = new URL("/auth/login", req.nextUrl.origin);
+    // Add the current path as a query parameter
+    newUrl.searchParams.set(
+      "next",
+      req.nextUrl.pathname ? req.nextUrl.pathname + req.nextUrl.search : "/"
+    );
     return Response.redirect(newUrl);
   }
 

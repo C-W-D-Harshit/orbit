@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import Image from "next/image";
+import { useUserStore } from "@/stores/userStore";
 
 const data = {
   user: {
@@ -132,6 +133,13 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { user } = useUserStore();
+  if (!user) return null;
+  data.user = {
+    name: user.username,
+    email: user.email,
+    avatar: "/avatars/shadcn.jpg",
+  };
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
