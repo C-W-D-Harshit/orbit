@@ -52,7 +52,7 @@ export default function SignUpPage() {
         email,
         password,
         redirect: true,
-        redirectTo: "/dashboard",
+        redirectTo: "/onboarding",
       });
     } catch (error) {
       if (error instanceof Error) {

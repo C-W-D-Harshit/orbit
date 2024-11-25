@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export function LoadingScreen() {
   const [isSplashVisible, setIsSplashVisible] = useState(true);
@@ -47,19 +48,14 @@ export function LoadingScreen() {
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.5 }}
             >
-              <svg
-                className="h-16 w-16 text-primary"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+              <div className="size-16 relative">
+                <Image
+                  src="/logo.png"
+                  alt="logo"
+                  fill
+                  className="object-cover"
                 />
-              </svg>
+              </div>
             </motion.div>
           </div>
           <span className="sr-only">Loading application...</span>

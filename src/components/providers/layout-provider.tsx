@@ -17,7 +17,7 @@ export default function LayoutProvider({
 }) {
   const pathname = usePathname();
 
-  if (pathname === "/") {
+  if (pathname === "/" || pathname === "/404" || pathname === "/onboarding") {
     return <>{children}</>;
   }
 
