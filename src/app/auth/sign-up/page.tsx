@@ -15,46 +15,45 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { loginSchema, type LoginFormValues } from "@/lib/schemas";
+import { signUpSchema, type SignUpFormValues } from "@/lib/schemas";
 import { toast } from "sonner";
-import { useRouter, useSearchParams } from "next/navigation";
+import { signUpAction } from "./actions";
 import { signIn } from "next-auth/react";
 
-export default function LoginPage() {
+export default function SignUpPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const next = searchParams.get("next");
 
-  const form = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<SignUpFormValues>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: "",
       password: "",
-      rememberMe: false,
+      confirmPassword: "",
+      acceptTerms: false,
     },
   });
 
-  async function onSubmit(values: LoginFormValues) {
+  async function onSubmit(values: SignUpFormValues) {
     setIsLoading(true);
 
-    const toastId = toast.loading("Logging in...");
+    const toastId = toast.loading("Creating your account...");
     const { email, password } = values;
 
-    console.log("values", values);
-
     try {
-      const response = await signIn("credentials", {
+      // Handle sign up action
+      const response = await signUpAction(email, password);
+
+      if (!response.success) {
+        throw new Error(response.message);
+      }
+      toast.success(response.message, { id: toastId });
+
+      signIn("credentials", {
         email,
         password,
-        redirect: false,
+        redirect: true,
+        redirectTo: "/dashboard",
       });
-
-      if (response?.error) throw new Error(response.error);
-
-      // Redirect to dashboard
-      router.push(next ?? "/dashboard");
-      toast.success("Logged in successfully", { id: toastId });
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message, { id: toastId });
@@ -81,9 +80,9 @@ export default function LoginPage() {
               >
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
               </svg>
-              <h1 className="text-2xl font-bold">Welcome back</h1>
+              <h1 className="text-2xl font-bold">Create an account</h1>
               <p className="text-muted-foreground">
-                Welcome back! Please enter your details.
+                Enter your details to create your account
               </p>
             </div>
 
@@ -118,7 +117,25 @@ export default function LoginPage() {
                       <FormLabel>Password</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter your password"
+                          placeholder="Create a password"
+                          type="password"
+                          disabled={isLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirm Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Confirm your password"
                           type="password"
                           disabled={isLoading}
                           {...field}
@@ -129,35 +146,35 @@ export default function LoginPage() {
                   )}
                 />
 
-                <div className="flex items-center justify-between">
-                  <FormField
-                    control={form.control}
-                    name="rememberMe"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-center space-x-2 space-y-0">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                            disabled={isLoading}
-                          />
-                        </FormControl>
-                        <FormLabel className="text-sm font-normal">
-                          Remember me
+                <FormField
+                  control={form.control}
+                  name="acceptTerms"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          disabled={isLoading}
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel>
+                          I accept the{" "}
+                          <Link
+                            href="/terms"
+                            className="text-primary hover:underline"
+                          >
+                            terms and conditions
+                          </Link>
                         </FormLabel>
-                      </FormItem>
-                    )}
-                  />
-                  <Link
-                    href="/forgot-password"
-                    className="text-sm text-primary hover:underline"
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
+                      </div>
+                    </FormItem>
+                  )}
+                />
 
                 <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "Signing in..." : "Sign in"}
+                  {isLoading ? "Creating account..." : "Create account"}
                 </Button>
 
                 <Button
@@ -166,7 +183,7 @@ export default function LoginPage() {
                   className="w-full"
                   disabled={isLoading}
                   onClick={() => {
-                    // Handle Google sign in
+                    // Handle Google sign up
                   }}
                 >
                   <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
@@ -187,18 +204,15 @@ export default function LoginPage() {
                       fill="#EA4335"
                     />
                   </svg>
-                  Sign in with Google
+                  Sign up with Google
                 </Button>
               </form>
             </Form>
 
             <div className="text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <Link
-                href="/auth/sign-up"
-                className="text-primary hover:underline"
-              >
-                Sign up
+              Already have an account?{" "}
+              <Link href="/auth/login" className="text-primary hover:underline">
+                Log in
               </Link>
             </div>
           </div>

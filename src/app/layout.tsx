@@ -7,6 +7,7 @@ import { LoadingScreen } from "@/components/loading-screen";
 import { Suspense } from "react";
 import { SessionProvider } from "next-auth/react";
 import UserStoreProvider from "@/components/providers/user-store-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -47,6 +48,7 @@ export default function RootLayout({
               >
                 <LayoutProvider>
                   <LoadingScreen />
+                  <Toaster />
                   {children}
                 </LayoutProvider>
               </ThemeProvider>
