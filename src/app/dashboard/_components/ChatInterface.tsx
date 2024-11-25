@@ -27,6 +27,8 @@ export default function ChatInterface({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
+  console.log(messages);
+
   return (
     <div className="flex flex-col h-full">
       <ScrollArea className="flex-1 p-4">
@@ -53,7 +55,7 @@ export default function ChatInterface({
                   </div>
                 )}
                 <motion.div
-                  className={`inline-block py-5 px-6 rounded-lg ${
+                  className={`py-5 px-6 rounded-lg flex flex-col gap-3 ${
                     message.role === "user"
                       ? "bg-card text-card-foreground text-left whitespace-pre-wrap"
                       : "bg-muted"
@@ -137,6 +139,11 @@ export default function ChatInterface({
                     >
                       {message.content}
                     </Markdown>
+                  )}
+                  {message.role === "data" && (
+                    <pre className={"bg-gray-200"}>
+                      {JSON.stringify(message.data, null, 2)}
+                    </pre>
                   )}
                 </motion.div>
               </div>

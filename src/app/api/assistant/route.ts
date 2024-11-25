@@ -59,6 +59,7 @@ export async function POST(req: Request) {
                   return {
                     tool_call_id: toolCall.id,
                     output: JSON.stringify(fun),
+                    result: fun,
                   };
 
                 default:
@@ -73,7 +74,7 @@ export async function POST(req: Request) {
           openai.beta.threads.runs.submitToolOutputsStream(
             threadId,
             runResult.id,
-            { tool_outputs, stream: true }
+            { tool_outputs }
           )
         );
       }
