@@ -50,7 +50,7 @@ export function LoadingScreen() {
             >
               <div className="size-16 relative">
                 <Image
-                  src="/logo.png"
+                  src="/static/logo.png"
                   alt="logo"
                   fill
                   className="object-cover"
