@@ -7,7 +7,9 @@ import InputComp from "./_components/InputComp";
 import React from "react";
 import ChatInterface from "./_components/ChatInterface";
 import { motion, AnimatePresence } from "framer-motion";
-import { useChat } from "ai/react";
+import { useAssistant, useChat } from "ai/react";
+import { useUserStore } from "@/stores/userStore";
+import { useSession } from "next-auth/react";
 
 interface Suggestion {
   icon: JSX.Element;
@@ -57,7 +59,14 @@ const containerVariants = {
 };
 
 export default function Page() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  // const { messages, handleInputChange, handleSubmit } = useChat();
+  const { data: session } = useSession();
+  const { status, messages, submitMessage, handleInputChange } = useAssistant({
+    api: "/api/assistant",
+    body: {
+      userEmail: session?.user?.email,
+    },
+  });
   return (
     <div className="flex flex-1 flex-col items-center mb-16 justify-between ">
       <AnimatePresence mode="wait">
@@ -145,14 +154,14 @@ export default function Page() {
             transition={{ duration: 0.5 }}
             className="w-full max-w-3xl flex-1 overflow-hidden flex flex-col"
           >
-            <ChatInterface messages={messages} />
+            <ChatInterface messages={messages} status={status} />
           </motion.div>
         )}
       </AnimatePresence>
       {/* Input Section */}
       <div className="w-full flex justify-center items-center h-32 fixed bottom-0 px-6 lg:px-0">
         <InputComp
-          handleSubmit={handleSubmit}
+          handleSubmit={submitMessage}
           handleInputChange={handleInputChange}
         />
       </div>

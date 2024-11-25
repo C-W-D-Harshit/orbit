@@ -1,9 +1,8 @@
 "use client";
 
 import { PlaceholdersAndVanishInput } from "@/components/ui/input-box";
-import React, { useState } from "react";
-import { useCompletion } from "ai/react";
-import { Attachment, ChatRequestOptions, JSONValue, ToolInvocation } from "ai";
+import React from "react";
+import { ChatRequestOptions } from "ai";
 
 const placeholders = [
   "What are your top priorities today?",
@@ -18,17 +17,29 @@ export default function InputComp({
   handleInputChange,
 }: {
   handleSubmit: (
-    event?: {
-      preventDefault?: () => void;
-    },
-    chatRequestOptions?: ChatRequestOptions
-  ) => void;
+    event?: React.FormEvent<HTMLFormElement>,
+    requestOptions?: {
+      data?: Record<string, string>;
+    }
+  ) => Promise<void>;
   handleInputChange: (
     e:
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLTextAreaElement>
   ) => void;
 }) {
+  const [open, setOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setOpen((open) => !open);
+      }
+    };
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, []);
   return (
     <div className="w-full max-w-3xl flex justify-center items-center gap-2 backdrop-blur-sm h-full">
       <PlaceholdersAndVanishInput

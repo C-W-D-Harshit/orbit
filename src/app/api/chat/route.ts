@@ -1,5 +1,6 @@
-import { streamText } from "ai";
+import { streamText, tool } from "ai";
 import { openai } from "@ai-sdk/openai";
+import { z } from "zod";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -30,10 +31,41 @@ Remember, you are the heart of Orbit, a productivity powerhouse. Make every inte
 
   `;
 
+  const a = "sad";
+
   const result = streamText({
-    model: openai("gpt-4o-2024-08-06"),
+    model: openai("gpt-4o-mini"),
     messages,
     system,
+    tools: {
+      createTask: tool({
+        description:
+          "Create a task with a title, description, and due date. The task will be added to the user's task list.",
+        parameters: z.object({
+          title: z.string().describe("The title of the task"),
+          description: z
+            .string()
+            .optional()
+            .describe("The description of the task"),
+          dueDate: z
+            .string()
+            .optional()
+            .describe("The due date of the task in ISO format"),
+        }),
+        execute: async ({ title, description, dueDate }) => {
+          // Simulate task creation
+          const taskId = Math.floor(Math.random() * 10000);
+          return {
+            taskId,
+            title,
+            description,
+            dueDate,
+            status: "Task created successfully",
+            a,
+          };
+        },
+      }),
+    },
   });
 
   return result.toDataStreamResponse();
