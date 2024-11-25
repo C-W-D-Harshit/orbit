@@ -136,7 +136,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useUserStore();
   if (!user) return null;
   data.user = {
-    name: user.username,
+    name: user.username || "Harshit Sharma",
     email: user.email,
     avatar: "/avatars/shadcn.jpg",
   };
