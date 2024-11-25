@@ -8,9 +8,14 @@ type Store = {
 };
 
 type User = {
+  profile: {
+    avatarUrl: string | null;
+  } | null;
   id: string;
-  username: string | null;
   email: string;
+  username: string | null;
+  isOnboarded: boolean;
+  isVerified: boolean;
 };
 
 const userStore = create<Store>()((set) => ({

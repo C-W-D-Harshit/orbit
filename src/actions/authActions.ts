@@ -14,6 +14,13 @@ export const getUserDataAction = async (email: string) => {
         id: true,
         username: true,
         email: true,
+        isOnboarded: true,
+        isVerified: true,
+        profile: {
+          select: {
+            avatarUrl: true,
+          },
+        },
       },
     });
 

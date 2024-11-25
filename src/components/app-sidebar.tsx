@@ -138,7 +138,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   data.user = {
     name: user.username || "Harshit Sharma",
     email: user.email,
-    avatar: "/avatars/shadcn.jpg",
+    avatar: user.profile?.avatarUrl || "/avatars/shadcn.jpg",
   };
   return (
     <Sidebar variant="inset" {...props}>

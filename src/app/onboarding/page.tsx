@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -13,32 +13,80 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Card, CardContent } from "@/components/ui/card";
-import { Upload } from "lucide-react";
+import { Upload, X } from "lucide-react";
 import * as z from "zod";
 import Image from "next/image";
+import { useDropzone } from "react-dropzone";
+import { onboardUserAction } from "./actions";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useUserStore } from "@/stores/userStore";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
+  photo: z.any().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 export default function OnboardingPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [photo, setPhoto] = useState<File | null>(null);
+  const [dataURI, setDataURI] = useState<string | null>(null);
+  const router = useRouter();
+  const { user } = useUserStore();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      photo: null,
     },
   });
 
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      if (acceptedFiles.length > 0) {
+        setPhoto(acceptedFiles[0]);
+        form.setValue("photo", acceptedFiles[0]);
+      }
+    },
+    [form]
+  );
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      "image/*": [".jpeg", ".jpg", ".png", ".gif"],
+    },
+    maxFiles: 1,
+  });
+
+  const removePhoto = () => {
+    setPhoto(null);
+    form.setValue("photo", null);
+  };
+
   async function onSubmit(values: FormValues) {
     setIsLoading(true);
+    const toastId = toast.loading("Creating your profile...");
+
     try {
-      console.log(values);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      // Handle form submission
+      const res = await onboardUserAction(
+        values.name,
+        values.photo,
+        user?.email as string
+      );
+
+      if (!res.success) {
+        throw new Error(res.message);
+      }
+
+      toast.success(res.message, { id: toastId });
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Error onboarding user:", error);
+      toast.error("Error onboarding user", { id: toastId });
     } finally {
       setIsLoading(false);
     }
@@ -54,7 +102,6 @@ export default function OnboardingPage() {
         <CardContent className="relative pt-8">
           <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-background rounded-full p-2 shadow-lg">
             <div className="bg-gradient-to-br from-primary to-secondary rounded-full relative size-14">
-              {/* <Sparkles className="w-8 h-8 text-background" /> */}
               <Image src="/logo.png" alt="logo" fill className="object-cover" />
             </div>
           </div>
@@ -65,21 +112,39 @@ export default function OnboardingPage() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <div className="space-y-2">
                 <FormLabel>Profile photo</FormLabel>
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full justify-start border-dashed"
-                  disabled={isLoading}
+                <div
+                  {...getRootProps()}
+                  className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors ${
+                    isDragActive ? "border-primary" : "border-muted"
+                  }`}
                 >
-                  <Upload className="mr-2 h-4 w-4" />
-                  Upload your photo
-                  <input
-                    type="file"
-                    className="hidden"
-                    accept="image/*"
-                    disabled={isLoading}
-                  />
-                </Button>
+                  <input {...getInputProps()} />
+                  {photo ? (
+                    <div className="relative w-32 h-32 mx-auto">
+                      <Image
+                        src={URL.createObjectURL(photo)}
+                        alt="Profile"
+                        fill
+                        className="object-cover rounded-full"
+                      />
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removePhoto();
+                        }}
+                        className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="text-muted-foreground">
+                      <Upload className="w-8 h-8 mx-auto mb-2" />
+                      <p>Drag & drop your photo here, or click to select</p>
+                    </div>
+                  )}
+                </div>
               </div>
 
               <FormField

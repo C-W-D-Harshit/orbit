@@ -28,6 +28,7 @@ model Profile {
   userId            String   @unique
   user              User     @relation(fields: [userId], references: [id])
   avatarUrl         String?  // URL for profile pictures
+  publicId          String?  // Public ID for cloudinary
   bio               String?
   timezone          String?  // For task/pomodoro scheduling
 
